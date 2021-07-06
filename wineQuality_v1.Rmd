@@ -1,0 +1,435 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+## Red Wine Quality Analysis by Travis Moore
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r wine, include=FALSE, warning=FALSE}
+getwd()
+setwd('C:/Users/moore/C751Wine')
+library(ggplot2)
+wine <- read.csv('wineQualityReds.csv')
+
+```
+
+##### This dataset contains nearly 1600 observations across 13 variables. The goal of this analysis is to understand what factors, if any, contribute to wine quality ratings.
+
+```{r initExplore, warning=FALSE}
+
+names(wine)
+
+```
+
+### Histogram of Wine Quality Rating
+```{r ratingHist, warning=FALSE}
+
+ggplot(aes(x= quality), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous() +
+  xlab("Quality Rating (0-10)") + ylab("Count")
+
+summary(wine$quality)
+
+```
+
+##### I chose a bar chart so we can easily what the wines in the dataset are rated. A majority of our wines' ratings were between 5 and 8.
+
+### Alcohol Content
+#### Bar Chart
+```{r}
+ggplot(aes(x= alcohol), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous() +
+  xlab("Alcohol % by volume") + ylab("Count")
+
+```
+
+##### I chose a bar chart so we can easily what the alcohol content of wines in the dataset.
+
+#### Box Plot with Category Summaries
+```{r alcohol, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            alcohol), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4) +
+  xlab("Alcohol % by volume") + ylab("Count")
+
+```
+
+##### The higher the alcohol content the higher the rating.
+
+### Fixed Acidity
+#### Bar Chart
+```{r}
+ggplot(aes(x= fixed.acidity), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous()+
+  xlab("Fixed Acidity (tartaric acid - g / dm^3)") + ylab("Count")
+
+```
+
+##### I chose a bar chart so we can easily what the fixed acidity content of wines in the dataset.
+
+#### Box Plot with Category Summaries
+```{r facid, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            fixed.acidity), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4)+
+  xlab("Fixed Acidity (tartaric acid - g / dm^3)") + ylab("Count")
+
+```
+
+##### The higher the rating, the higher the fixed acidity of the wine.
+
+### Citric Acid
+#### Bar Chart
+```{r}
+ggplot(aes(x= citric.acid), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous() +
+  xlab("Citric Acid (g / dm^3)") + ylab("Count")
+
+```
+
+##### I chose a bar chart so we can easily the citric acid content of wines in the dataset.
+
+#### Box Plot with Category Summaries
+```{r cacid, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            citric.acid), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4) +
+  xlab("Citric Acid (g / dm^3)") + ylab("Count")
+
+```
+
+#### This seems in line with our analysis of fixed acidity. Higher ratings tend to have higher citric acid content.
+
+### Residual Sugar
+#### Bar Chart
+```{r}
+ggplot(aes(x= residual.sugar), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous() +
+  xlab("Residual Sugar (g / dm^3)") + ylab("Count")
+
+```
+
+##### I chose a bar chart so we can easily the residual sugar content of wines in the dataset.
+
+#### Box Plot with Category Summaries
+```{r rsugar, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            residual.sugar), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4) +
+  xlab("Residual Sugar (g / dm^3)") + ylab("Count")
+
+```
+
+#### It seems as if risidual sugar has minimal impact on quality ratings.
+
+### pH
+#### Bar Chart
+```{r}
+ggplot(aes(x= pH), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous() +
+  xlab("pH") + ylab("Count")
+
+```
+
+##### I chose a bar chart so we can easily the pH of wines in the dataset.
+
+#### Box Plot with Category Summaries
+```{r pH, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            pH), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4) +
+  xlab("pH") + ylab("Count")
+
+```
+
+#### pH is a measure of acidity. The lower the pH, the higher the acidity. This is also in line with our findings that higher rated wines tend to have a higher acidity (or lower pH as we see here).
+
+### Total Sulfur Dioxide Content
+#### Bar Chart
+
+```{r}
+ggplot(aes(x= total.sulfur.dioxide), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous()+
+  xlab("Sulfur Dioxide (mg / dm^3)") + ylab("Count")
+
+```
+
+##### I chose a bar chart so we can easily the sulfur dioxide content of wines in the dataset.
+#### Box Plot with Category Summaries
+```{r suldioxhist, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            total.sulfur.dioxide), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4) +
+  xlab("Total Sulfur Dioxide (mg / dm^3)") + ylab("Count")
+
+```
+
+#### Interesting, let's dig in and take a look at free sulfur dioxide
+
+### Free Sulfur Dioxide and Wine Quality
+
+#### Bar Chart
+```{r}
+ggplot(aes(x= free.sulfur.dioxide), data = wine) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous()+
+  xlab("Free Sulfur Dioxide (mg / dm^3)") + ylab("Count")
+
+```
+
+##### I chose a bar chart so we can easily the free sulfur dioxide content of wines in the dataset.
+#### Box Plot with Category Summaries
+
+```{r freesuldioxhist, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            free.sulfur.dioxide), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4)+
+  xlab("Free Sulfur Dioxide (mg / dm^3)") + ylab("Count")
+
+```
+
+#### This is very similar to the previous plot looking at total sulfur dioxide. THis would be a good rabbit hole to follow in a further analysis.
+
+
+
+
+### Total Sulfur Dioxide and Wine Quality
+#### Sulfur Dioxide is used to preserve wine. There are many different views on its use in wine. I am interested in whether the amount of sulfur dioxide impacts quality ratings.
+
+```{r sulfurdioxQuality, warning=FALSE}
+ggplot(aes(x = quality, y = total.sulfur.dioxide), data = wine) +
+  geom_jitter(alpha = 1/20) +
+  coord_trans(y = 'sqrt')+
+  xlab("Quality Rating") + ylab("Total Sulfur Dioxide (mg / dm^3)")
+
+summary(wine$total.sulfur.dioxide)
+
+```
+
+#### This scatterplot shows that there is a tendency of wines with 3 or 4 rating to contain more sulfur dioxide than those with a higher rating.
+
+### Alcohol and Wine Quality
+#### I am interested in whether the amount of alcohol in wine impacts quality ratings.
+
+```{r alcoholQuality, warning=FALSE}
+ggplot(aes(x = quality, y = alcohol), data = wine) +
+  geom_jitter(alpha = 1/15) +
+  coord_trans(y = 'sqrt')+
+  xlab("Quality Rating") + ylab("Alcohol (% by volume)")
+
+summary(wine$alcohol)
+
+```
+
+#### This scatterplot shows that there is a tendency of wines with a higher rating to contain more alcohol.
+
+### Residual Sugars and Wine Quality
+#### I am interested in whether the amount of residual sugar in wine impacts quality ratings.
+
+```{r sugarqual, warning=FALSE}
+ggplot(aes(x = quality, y = residual.sugar), data = wine) +
+  geom_jitter(alpha = 1/15) +
+  coord_trans(y = 'sqrt')+
+  xlab("Quality Rating") + ylab("Residual Sugar (g / dm^3)")
+
+```
+
+### pH and Wine Quality
+#### I am interested in whether the pH of wine impacts quality ratings.
+
+```{r pHqual, warning=FALSE}
+ggplot(aes(x = quality, y = pH), data = wine) +
+  geom_jitter(alpha = 1/15) +
+  coord_trans(y = 'sqrt')+
+  xlab("Quality Rating") + ylab("pH")
+
+```
+
+### Alcohol & Sugar's Impact on Quality
+
+```{r alcoholSugarqual, warning=FALSE}
+ggplot(aes(x = alcohol, 
+           y = residual.sugar  , color = factor(quality)), 
+       data = wine) +
+      geom_point(alpha = 0.8, size = 1) +
+      geom_smooth(method = "lm", se = FALSE, size=1)  +
+  scale_color_brewer(palette = 3, type='seq',
+                   guide=guide_legend(title='Quality'))+
+  xlab("Alcohol (% by volume)") + ylab("residual sugar (g / dm^3)")
+```
+
+#### This multivariate plot shows the impact of alcohol content and residual sugar's impact on quality. We can see that a wine with lower residual sugar content has a higher rating, which increases as alcohol content increases. There is a sharper rise in quality as lower rated wines increase in alcohol content.
+
+### Chlorides & Sulphates' Impact on Quality
+
+```{r chlorSulphqual, warning=FALSE}
+ggplot(aes(x = sulphates, 
+           y = chlorides  , color = factor(quality)), 
+       data = wine) +
+      geom_point(alpha = 0.8, size = 1) +
+      geom_smooth(method = "lm", se = FALSE,size=1)  +
+  scale_color_brewer(palette = 3, type='seq',
+                   guide=guide_legend(title='Quality'))+
+  xlab("sulphates (potassium sulphate - g / dm3)") + ylab("chlorides (sodium chloride - g / dm^3)")
+```
+
+#### High rated wines tend to have a lower number of sulphates and chlorides. As sulphates decrease the wine's quality increases.
+
+### At what point do sulphates impact quality given alcohol content
+#### Let's determine our bucket size by looking at the sulphates data.
+
+```{r}
+summary(wine$sulphates)
+
+```
+
+#### WE'll set our buckets based on the quartiles.
+
+```{r sulbox, warning=FALSE}
+wine$sulphates.bucket = cut(wine$sulphates,
+                            c(.30, .55, .62, .73, 1))
+
+ggplot(aes(x = factor(quality),
+           y = sulphates ), 
+           data = wine) + 
+   geom_boxplot( aes(fill= sulphates.bucket))  +
+  scale_fill_brewer(type='seq',
+                   guide=guide_legend())+
+  xlab("Quality") + ylab("sulphates (potassium sulphate - g / dm3)")
+
+```
+
+## Final Plots and Summary
+
+##### The following charts represent the most relevant findings of this analysis.
+
+### Alcohol Content
+```{r fnlalcohol, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            alcohol), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4)+
+  xlab("Quality") + ylab("alcohol (% by volume)")
+
+```
+
+###### The higher the alcohol content the higher the rating.
+
+### Fixed Acidity
+```{r fnlfacid, warning=FALSE}
+
+ggplot(aes(factor(quality), 
+            fixed.acidity), 
+        data = wine) +
+  geom_jitter( alpha = .3)  +
+  geom_boxplot( alpha = .5,color = 'blue')+
+  stat_summary(fun = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 8, 
+               size = 4)+
+  xlab("Quality") + ylab("fixed acidity (tartaric acid - g / dm^3)")
+
+```
+
+###### The higher the rating, the higher the fixed acidity of the wine.
+
+### Chlorides & Sulphates' Impact on Quality
+
+```{r fnlchlorSulphqual, warning=FALSE}
+ggplot(aes(x = sulphates, 
+           y = chlorides  , color = factor(quality)), 
+       data = wine) +
+      geom_point(alpha = 0.8, size = 1) +
+      geom_smooth(method = "lm", se = FALSE,size=1)  +
+  scale_color_brewer(palette = 3, type='seq',
+                   guide=guide_legend(title='Quality'))+
+  xlab("sulphates (potassium sulphate - g / dm3)") + ylab("chlorides (sodium chloride - g / dm^3")
+```
+
+#### High rated wines tend to have a lower number of sulphates and chlorides. As sulphates decrease the wine's quality increases.
+
+## Reflection
+
+#### The analysis above attempts to determine if there is a coorelation between alcohol content and quality and total sulfur dioxide content and quality.
+
+#### I plotted the alcohol variable against the quality variable to determine that a higher alcohol content does coorelate with a higher quality rating.
+
+#### I plotted the total Sulfur Dioxide variable against quality and found that lower sulfur dioxide content coorelates with a higher quality rating.
+
+#### For further analysis, I would question whether or not acidity affects wine quality ratings.
